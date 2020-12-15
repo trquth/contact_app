@@ -49,7 +49,7 @@ class FetchContactHelper {
           });
         });
         console.log('xxxx', filteredData);
-        return filteredData;
+        return parseData;
       }
     } catch (e) {
       console.log('FetchContactHelper getContacts error', e);
