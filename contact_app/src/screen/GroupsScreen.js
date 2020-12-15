@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {View, Text, TouchableOpacity, FlatList} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Groups from '../constant/GroupsConstant';
 import GroupsHelper from '../helper/GroupsHelper';
@@ -12,12 +11,6 @@ const GroupsScreen = ({navigation}) => {
   useEffect(() => {
     setupGroups();
   }, []);
-
-  useEffect(() => {
-    setTimeout(() => {
-      initData();
-    }, 200);
-  }, [selectedGroup]);
 
   const setupGroups = async () => {
     let savedLocalSelectedGroup = await GroupsHelper.getSelectedGroups();
@@ -40,31 +33,37 @@ const GroupsScreen = ({navigation}) => {
   const initData = useCallback(async () => {
     let data = Groups.map((item) => {
       let index = selectedGroup.findIndex((data) => data.value === item.value);
-      item.isSelected = index === -1;
+      item.isSelected = index > -1;
       return item;
     });
+    console.log('');
     setGroups([...data]);
   }, [selectedGroup]);
 
-  const selectGroup = useCallback((group) => {
-    let index = selectedGroup.findIndex((item) => item.value === group.value);
-    if (index > -1) {
-      selectedGroup.splice(index, 1);
-    } else {
-      selectedGroup.push(group);
-    }
-    console.log('selectGroup---->', selectedGroup);
-    setSelectedGroup([...selectedGroup]);
-    try {
-    } catch (error) {}
-  }, []);
+  const selectGroup = useCallback(
+    (group) => {
+      let index = selectedGroup.findIndex((item) => item.value === group.value);
+      if (index > -1) {
+        selectedGroup.splice(index, 1);
+      } else {
+        selectedGroup.push(group);
+      }
+      console.log('selectGroup---->', selectedGroup);
+      setSelectedGroup([...selectedGroup]);
+      initData();
+      try {
+      } catch (error) {}
+    },
+    [selectedGroup],
+  );
 
   const confirmSelectedGroup = useCallback(async () => {
     try {
+      console.log('confirmSelectedGroup---->', selectedGroup);
       await GroupsHelper.saveSelectedGroups(selectedGroup);
     } catch (error) {}
     navigation.goBack();
-  }, []);
+  }, [selectedGroup]);
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{padding: 15}}>

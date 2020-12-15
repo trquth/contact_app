@@ -2,20 +2,24 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {View, Text, TouchableOpacity, SectionList} from 'react-native';
 import SearchBar from 'react-native-search-bar';
 import FetchContactHelper from '../helper/FetchContactHelper';
+import {useIsFocused} from '@react-navigation/native';
 
 const ContactScreen = ({navigation}) => {
   const [data, setData] = useState([]);
   const contactsData = useRef([]);
   const [search, setSearch] = useState('');
   const search1 = useRef();
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (search) {
-      searchContact();
-    } else {
-      initData();
+    if (isFocused) {
+      if (search) {
+        searchContact();
+      } else {
+        initData();
+      }
     }
-  }, [search, navigation]);
+  }, [search, navigation, isFocused]);
 
   const initData = async () => {
     const contactInPhone = await FetchContactHelper.getContacts();
@@ -112,9 +116,12 @@ const ContactScreen = ({navigation}) => {
                 {item.shortFullName}
               </Text>
             </View>
-            <Text style={{fontSize: 20, marginHorizontal: 5}}>
-              {item.fullName}
-            </Text>
+            <View>
+              <Text style={{fontSize: 20, marginHorizontal: 5}}>
+                {item.fullName}
+              </Text>
+              {item.groupName && <Text>Group: {item.groupName}</Text>}
+            </View>
           </TouchableOpacity>
         )}
         keyExtractor={(item, index) => index}

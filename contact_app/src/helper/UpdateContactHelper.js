@@ -12,9 +12,12 @@ class UpdateContactHelper {
       if (value) {
         data = JSON.parse(value);
         if (data && data.length > 0) {
+          console.log('dlsajfslfjslkfjsalkfjsafs', contact);
           const index = data.findIndex((item) => item.id === contact.id);
+
           if (index > -1) {
             data[index] = contact;
+
             const contactData = JSON.stringify(data);
             await AsyncStorage.setItem('@contact', contactData);
             return true;

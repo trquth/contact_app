@@ -1,4 +1,6 @@
 import lodash from 'lodash';
+import {DrawerLayoutAndroidBase} from 'react-native';
+import Groups from '../constant/GroupsConstant';
 
 export class ContactModel {
   get fullName() {
@@ -15,6 +17,17 @@ export class ContactModel {
       value += this.lastName.charAt(0);
     }
     return value.trim().toUpperCase();
+  }
+
+  get groupName() {
+    if (this.group) {
+      let data = Groups.find((item) => item.value === this.group);
+      if (data) {
+        return data.title;
+      } else {
+        return '';
+      }
+    }
   }
 
   constructor(contact) {

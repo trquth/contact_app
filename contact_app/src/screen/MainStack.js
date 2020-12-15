@@ -13,11 +13,10 @@ const MainStack = () => {
   }, []);
   return (
     <NavigationContainer>
-      <Stack.Navigator mode="modal">
+      <Stack.Navigator mode="modal" initialRouteName="ContactScreen">
         <Stack.Screen
           name={'ContactScreen'}
           component={ContactScreen}
-          options={{headerMode: 'none'}}
         />
         <Stack.Screen name={'GroupsScreen'} component={GroupsScreen} />
         <Stack.Screen
