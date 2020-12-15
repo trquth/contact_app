@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import ContactScreen from './ContactScreen';
 import FetchContactHelper from '../helper/FetchContactHelper';
 import GroupsScreen from './GroupsScreen';
+import EditContactScreen from './EditContactScreen';
 const Stack = createStackNavigator();
 
 const MainStack = () => {
@@ -11,10 +12,19 @@ const MainStack = () => {
     FetchContactHelper.initData();
   }, []);
   return (
-    <NavigationContainer headerMode="none">
-      <Stack.Navigator headerMode="none" mode="modal">
-        <Stack.Screen name={'ContactScreen'} component={ContactScreen} />
+    <NavigationContainer>
+      <Stack.Navigator mode="modal">
+        <Stack.Screen
+          name={'ContactScreen'}
+          component={ContactScreen}
+          options={{headerMode: 'none'}}
+        />
         <Stack.Screen name={'GroupsScreen'} component={GroupsScreen} />
+        <Stack.Screen
+          options={{title: 'Contact Detail'}}
+          name={'EditContactScreen'}
+          component={EditContactScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

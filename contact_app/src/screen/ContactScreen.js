@@ -49,6 +49,10 @@ const ContactScreen = ({navigation}) => {
     navigation.push('GroupsScreen');
   }, []);
 
+  const goToEditContactScreen = useCallback((data) => {
+    navigation.navigate('EditContactScreen', {data: data});
+  }, []);
+
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{padding: 15}}>
@@ -85,7 +89,7 @@ const ContactScreen = ({navigation}) => {
           </Text>
         )}
         renderItem={({item}) => (
-          <View
+          <TouchableOpacity
             style={{
               height: 40,
               flexDirection: 'row',
@@ -93,7 +97,8 @@ const ContactScreen = ({navigation}) => {
               marginHorizontal: 10,
               alignItems: 'center',
             }}
-            key={item.id}>
+            key={item.id}
+            onPress={() => goToEditContactScreen(item)}>
             <View
               style={{
                 width: 40,
@@ -110,7 +115,7 @@ const ContactScreen = ({navigation}) => {
             <Text style={{fontSize: 20, marginHorizontal: 5}}>
               {item.fullName}
             </Text>
-          </View>
+          </TouchableOpacity>
         )}
         keyExtractor={(item, index) => index}
         ItemSeparatorComponent={() => (
