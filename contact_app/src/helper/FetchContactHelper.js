@@ -38,6 +38,7 @@ class FetchContactHelper {
       if (groups.length === 0) {
         return parseData;
       } else {
+        console.log('groups-------->', groups);
         let filteredData = [];
         groups.forEach((item) => {
           parseData.forEach((data) => {
@@ -49,7 +50,7 @@ class FetchContactHelper {
           });
         });
         console.log('xxxx', filteredData);
-        return parseData;
+        return filteredData;
       }
     } catch (e) {
       console.log('FetchContactHelper getContacts error', e);

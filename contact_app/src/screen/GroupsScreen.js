@@ -9,10 +9,10 @@ const GroupsScreen = ({navigation}) => {
   const [selectedGroup, setSelectedGroup] = useState([]);
 
   useEffect(() => {
-    setupGroups();
+    initData();
   }, []);
 
-  const setupGroups = async () => {
+  const initData = async () => {
     let savedLocalSelectedGroup = await GroupsHelper.getSelectedGroups();
     console.log('run run run savedLocalSelectedGroup', savedLocalSelectedGroup);
     if (savedLocalSelectedGroup && savedLocalSelectedGroup.length > 0) {
@@ -20,17 +20,17 @@ const GroupsScreen = ({navigation}) => {
         let index = savedLocalSelectedGroup.findIndex(
           (data) => data.value === item.value,
         );
-        item.isSelected = index === -1;
+        item.isSelected = index > -1;
         return item;
       });
       console.log('run run run after', data);
       setGroups([...data]);
     } else {
-      initData();
+      updateData();
     }
   };
 
-  const initData = useCallback(async () => {
+  const updateData = useCallback(async () => {
     let data = Groups.map((item) => {
       let index = selectedGroup.findIndex((data) => data.value === item.value);
       item.isSelected = index > -1;
@@ -50,7 +50,7 @@ const GroupsScreen = ({navigation}) => {
       }
       console.log('selectGroup---->', selectedGroup);
       setSelectedGroup([...selectedGroup]);
-      initData();
+      updateData();
       try {
       } catch (error) {}
     },
