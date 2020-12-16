@@ -16,8 +16,7 @@ class UpdateContactHelper {
           const index = data.findIndex((item) => item.id === contact.id);
 
           if (index > -1) {
-            data[index] = contact;
-
+            data[index].group = lodash.get(contact, 'group', null); //Only update group
             const contactData = JSON.stringify(data);
             await AsyncStorage.setItem('@contact', contactData);
             return true;

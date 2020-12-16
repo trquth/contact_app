@@ -48,7 +48,7 @@ const EditContactScreen = ({route, navigation}) => {
           data.group = item.value;
           setSelectedGroup(item.value);
         }
-       
+
         setData(data);
       }
     },
